@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import type TipoPet from "../tipos/TipoPet";
+import EnumEspecie from "../enum/EnumEspecie";
 
 let listaDePets: Array<TipoPet> = [];
 
@@ -12,6 +13,12 @@ export default class PetController{
       idade,
       nome,
     } = <TipoPet>req.body;
+
+    if(!Object.values(EnumEspecie).includes(especie)) {
+      return res.status(400).json({
+        erro: 'Especie inválida',
+      });
+    }
 
     const novoPet: TipoPet = {
       id,
@@ -54,6 +61,7 @@ export default class PetController{
   deletaPet(req: Request, res: Response) {
     const { id } = req.params;
     const pet = listaDePets.find(pet => pet.id === Number(id));
+    
     if (!pet) {
       return res.status(404).json({ erro: 'Pet não encontrado' })
     }
