@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import type TipoPet from "../tipos/TipoPet";
 import EnumEspecie from "../enum/EnumEspecie";
+import PetRepository from "../repositories/PetRepository";
 
 let listaDePets: Array<TipoPet> = [];
 
@@ -11,6 +12,7 @@ function geraId(): number {
 }
 
 export default class PetController{
+  constructor(private repository: PetRepository) {}
   criaPet(req: Request, res: Response) {
     const {
       adotado,
@@ -33,7 +35,8 @@ export default class PetController{
       dataDeNascimento,
     }; 
 
-    listaDePets.push(novoPet);
+    // listaDePets.push(novoPet);
+    this.repository.criaPet(novoPet);
 
     res.status(201).json(novoPet);
   }
