@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import type TipoPet from "../tipos/TipoPet";
 import EnumEspecie from "../enum/EnumEspecie";
 import PetRepository from "../repositories/PetRepository";
+import PetEntity from "../entities/PetEntities";
 
 let listaDePets: Array<TipoPet> = [];
 
@@ -19,7 +20,7 @@ export default class PetController{
       especie,
       nome,
       dataDeNascimento,
-    } = <TipoPet>req.body;
+    } = <PetEntity>req.body;
     
     if(!Object.values(EnumEspecie).includes(especie)) {
       return res.status(400).json({
@@ -27,13 +28,12 @@ export default class PetController{
       });
     }
 
-    const novoPet: TipoPet = {
-      id: geraId(),
-      adotado,
-      especie,
-      nome,
-      dataDeNascimento,
-    }; 
+    const novoPet = new PetEntity();
+    novoPet.id = geraId();
+    novoPet.especie = especie;
+    novoPet.dataDeNascimento = dataDeNascimento;
+    novoPet.nome = nome;
+    novoPet.adotado = adotado;
 
     // listaDePets.push(novoPet);
     this.repository.criaPet(novoPet);
@@ -41,7 +41,8 @@ export default class PetController{
     res.status(201).json(novoPet);
   }
 
-  listaPet(req: Request, res: Response) {
+  async listaPet(req: Request, res: Response) {
+    const listaDePets = await this.repository.listaPet();
     return res.status(200).json(listaDePets);
   }
 
