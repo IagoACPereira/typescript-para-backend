@@ -28,14 +28,13 @@ export default class PetController{
       });
     }
 
-    const novoPet = new PetEntity();
-    novoPet.id = geraId();
-    novoPet.especie = especie;
-    novoPet.dataDeNascimento = dataDeNascimento;
-    novoPet.nome = nome;
-    novoPet.adotado = adotado;
+    const novoPet = new PetEntity(
+      nome,
+      especie,
+      dataDeNascimento,
+      adotado,
+    );
 
-    // listaDePets.push(novoPet);
     this.repository.criaPet(novoPet);
 
     res.status(201).json(novoPet);
@@ -46,25 +45,17 @@ export default class PetController{
     return res.status(200).json(listaDePets);
   }
 
-  atualizaPet(req: Request, res: Response) {
+  async atualizaPet(req: Request, res: Response) {
     const { id } = req.params;
-    const {
-      adotado,
-      especie,
-      nome,
-      dataDeNascimento
-    } = req.body as TipoPet;
-    const pet = listaDePets.find(pet => pet.id === Number(id));
-    if (!pet) {
-      return res.status(404).json({ erro: 'Pet não encontrado' })
+    const { success, message } = await this.repository.atualizaPet(
+      Number(id),
+      req.body as PetEntity,
+    );
+
+    if(!success) {
+      return res.status(404).json({ message });
     }
-
-    pet.nome = nome;
-    pet.especie = especie;
-    pet.adotado = adotado;
-    pet.dataDeNascimento = dataDeNascimento;
-
-    return res.status(200).json(pet);
+    return res.sendStatus(204);
   }
 
   deletaPet(req: Request, res: Response) {
