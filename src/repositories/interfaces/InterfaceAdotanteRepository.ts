@@ -14,6 +14,7 @@ export default interface InterfaceAdotanteRepository {
   deletaAdotante(id: number): Promise<{ success: boolean; message?: string }> | void;
 
   atualizaEnderecoAdotante(
-    idAdotante: number, endereco: EnderecoEntity
-  ): Promise<{ success: boolean; message?: string }> | void
+    idAdotante: number, 
+    endereco: EnderecoEntity
+  ): Promise<{ success: boolean; message?: string }> | void;
 }

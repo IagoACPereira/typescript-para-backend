@@ -4,8 +4,8 @@ import InterfaceAdotanteRepository from "./interfaces/InterfaceAdotanteRepositor
 import EnderecoEntity from "../entities/EnderecoEntity";
 
 export default class AdotanteRepository implements InterfaceAdotanteRepository {
-
   constructor(private repository: Repository<AdotanteEntity>) {}
+  
   criaAdotante(adotante: AdotanteEntity): void | Promise<void> {
     this.repository.save(adotante);
   }
