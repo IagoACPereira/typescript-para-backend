@@ -3,6 +3,7 @@ import type TipoPet from "../types/TipoPet";
 import EnumEspecie from "../enum/EnumEspecie";
 import PetRepository from "../repositories/PetRepository";
 import PetEntity from "../entities/PetEntities";
+import EnumPorte from "../enum/EnumPorte";
 
 let listaDePets: Array<TipoPet> = [];
 
@@ -18,6 +19,7 @@ export default class PetController{
     const {
       adotado,
       especie,
+      porte,
       nome,
       dataDeNascimento,
     } = <PetEntity>req.body;
@@ -28,11 +30,18 @@ export default class PetController{
       });
     }
 
+    if(porte && !(porte in EnumPorte)) {
+      return res.status(400).json({
+        erro: 'Especie inválido',
+      });
+    }
+
     const novoPet = new PetEntity(
       nome,
       especie,
       dataDeNascimento,
       adotado,
+      porte,
     );
 
     this.repository.criaPet(novoPet);
