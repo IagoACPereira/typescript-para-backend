@@ -10,6 +10,7 @@ const router = Router()
   .post('/adotantes', (req, res) => adotanteController.criaAdotante(req, res))
   .get('/adotantes', (req, res) => adotanteController.listaAdotante(req, res))
   .put('/adotantes/:id', (req, res) => adotanteController.atualizaAdotante(req, res))
-  .delete('/adotantes/:id', (req, res) => adotanteController.deletaAdotante(req, res));
+  .delete('/adotantes/:id', (req, res) => adotanteController.deletaAdotante(req, res))
+  .patch('/adotantes/:id', (req, res) => adotanteController.atualizaEnderecoAdotante(req, res));
 
 export default router;
