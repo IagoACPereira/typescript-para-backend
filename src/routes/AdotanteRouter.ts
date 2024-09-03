@@ -7,6 +7,9 @@ const adotanteRepository = new AdotanteRepository(AppDataSource.getRepository("A
 const adotanteController = new AdotanteController(adotanteRepository);
 
 const router = Router()
-  .post('/adotantes', (req, res) => adotanteController.criaAdotante(req, res));
+  .post('/adotantes', (req, res) => adotanteController.criaAdotante(req, res))
+  .get('/adotantes', (req, res) => adotanteController.listaAdotante(req, res))
+  .put('/adotantes/:id', (req, res) => adotanteController.atualizaAdotante(req, res))
+  .delete('/adotantes/:id', (req, res) => adotanteController.deletaAdotante(req, res));
 
 export default router;
